@@ -32,20 +32,28 @@ curl -o ${TEMP_FILE} -fL ${OS_URL}
 unzip ${TEMP_FILE} -d ${BUILD_IMAGE_PATH}
 rm -rf $TEMP_FILE
 
-# mount image
-
 OS_IMAGE=${BUILD_IMAGE_PATH}/${OS_FILE}.img
-OS_BOOT_PATH=${BUILD_MOUNT_PATH}/boot && mkdir -p ${OS_BOOT_PATH}
-mount -v -o offset=${OFFSET_BOOT} -t vfat ${OS_IMAGE} ${OS_BOOT_PATH}
+
+# edit rootfs partition
+
+echo "Editing rootfs partition..."
 OS_ROOTFS_PATH=${BUILD_MOUNT_PATH}/rootfs && mkdir -p ${OS_ROOTFS_PATH}
 mount -v -o offset=${OFFSET_ROOTFS} -t ext4 ${OS_IMAGE} ${OS_ROOTFS_PATH}
 
-# copy files
-
 cp --no-preserve=mode,ownership ${SRC_PATH}/config/rootfs/etc/rc.local ${OS_ROOTFS_PATH}/etc/rc.local
+
+umount ${OS_ROOTFS_PATH} || true
+
+# edit boot partition
+
+echo "Editing boot partition..."
+OS_BOOT_PATH=${BUILD_MOUNT_PATH}/boot && mkdir -p ${OS_BOOT_PATH}
+mount -v -o offset=${OFFSET_BOOT} -t vfat ${OS_IMAGE} ${OS_BOOT_PATH}
+
 cp -r ${SRC_PATH}/config/boot/* ${OS_BOOT_PATH}
 
-# un-mount partitions
-
 umount ${OS_BOOT_PATH} || true
-umount ${OS_ROOTFS_PATH} || true
+
+# done
+
+exit 0
