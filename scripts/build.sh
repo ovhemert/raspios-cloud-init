@@ -35,18 +35,17 @@ rm -rf $TEMP_FILE
 # mount image
 
 OS_IMAGE=${BUILD_IMAGE_PATH}/${OS_FILE}.img
-
-#OS_BOOT_PATH=${BUILD_MOUNT_PATH}/boot && mkdir -p ${OS_BOOT_PATH}
-#mount -v -o offset=${OFFSET_BOOT} -t vfat ${OS_IMAGE} ${OS_BOOT_PATH}
-
+OS_BOOT_PATH=${BUILD_MOUNT_PATH}/boot && mkdir -p ${OS_BOOT_PATH}
+mount -v -o offset=${OFFSET_BOOT} -t vfat ${OS_IMAGE} ${OS_BOOT_PATH}
 OS_ROOTFS_PATH=${BUILD_MOUNT_PATH}/rootfs && mkdir -p ${OS_ROOTFS_PATH}
-mount -o offset=${OFFSET_ROOTFS} -t ext4 ${OS_IMAGE} ${OS_ROOTFS_PATH}
+mount -v -o offset=${OFFSET_ROOTFS} -t ext4 ${OS_IMAGE} ${OS_ROOTFS_PATH}
 
+# copy files
 
-# mount -o offset=${OFFSET_ROOTFS} -t ext4 ${OS_IMAGE} ${OS_ROOTFS_PATH}
+cp --no-preserve=mode,ownership ${SRC_PATH}/config/rootfs/etc/rc.local ${OS_ROOTFS_PATH}/etc/rc.local
+cp -r ${SRC_PATH}/config/boot/* ${OS_BOOT_PATH}
 
-# copy customizations
+# un-mount partitions
 
-# BUILD_IMAGE_CONFIG_PATH=${BUILD_IMAGE_PATH}/raspberrypi-ua-netinst/config
-# cp -r ${SRC_PATH}/config/* ${BUILD_IMAGE_CONFIG_PATH}
-
+umount ${OS_BOOT_PATH} || true
+umount ${OS_ROOTFS_PATH} || true
