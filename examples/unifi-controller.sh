@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/bash
 
 # change hostname
 OLDHOST=`cat /etc/hostname`

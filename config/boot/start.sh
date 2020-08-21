@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/bash
 
 # execute your own script
 # echo "Put commands here."
