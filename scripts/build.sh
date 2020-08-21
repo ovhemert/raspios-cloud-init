@@ -54,6 +54,10 @@ cp -r ${SRC_PATH}/config/boot/* ${OS_BOOT_PATH}
 
 umount ${OS_BOOT_PATH} || true
 
+# prepare artifact
+
+gzip ${OS_IMAGE}
+
 # done
 
 exit 0

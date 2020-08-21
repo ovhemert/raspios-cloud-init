@@ -16,5 +16,5 @@ jobs:
     - name: Upload image file artifact
       uses: actions/upload-artifact@v2
       with:
-        name: raspios-buster-lite-armhf
-        path: build/image/*.img
+        name: raspios-buster-lite-armhf.img.gz
+        path: build/image/*.gz
