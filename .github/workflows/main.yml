@@ -10,7 +10,12 @@ jobs:
   build:
     runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@v2
     - name: Build the image file
+      uses: actions/checkout@v2
       run: sudo ./scripts/build.sh lite-armhf
-  
+    - name: Upload image file artifact
+      uses: actions/upload-artifact@v2
+      with:
+        name: raspios-buster-lite-armhf
+        path: build/image/*.img
+        
