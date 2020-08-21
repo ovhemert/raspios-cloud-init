@@ -1,7 +1,9 @@
-if [ $(dpkg-query -W -f='${Status}' unifi 2>/dev/null | grep -c "ok installed") -eq 0 ];
-then
-  sleep 5
-  echo 'deb http://www.ui.com/downloads/unifi/debian stable ubiquiti' | tee /etc/apt/sources.list.d/100-ubnt-unifi.list
-  wget -O /etc/apt/trusted.gpg.d/unifi-repo.gpg https://dl.ubnt.com/unifi/unifi-repo.gpg
-  apt-get update && apt-get install unifi -y
-fi
+#!/bin/sh
+
+# execute your own script
+# echo "Put commands here."
+# or run a remote script
+# bash <(curl -s https://raw.githubusercontent.com/ovhemert/raspios-cloud-init/master/examples/change-hostname.sh)
+
+# and clean exit
+exit 0
